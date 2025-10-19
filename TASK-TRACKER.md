@@ -1,7 +1,8 @@
 # 📋 CI/CD Pipeline Task Tracker
 
 ## 🎯 Project Goal
-Build complete CI/CD pipeline: GitHub Actions → ECR → ECS Fargate → Octopus Deploy
+**Phase 1**: GitHub Actions → ECR → ECS Fargate (Direct)
+**Phase 2**: Add Octopus Deploy for advanced deployment features
 
 ---
 
@@ -54,10 +55,10 @@ Build complete CI/CD pipeline: GitHub Actions → ECR → ECS Fargate → Octopu
 - [ ] **5E**: Create API key for GitHub Actions
 - [ ] **5F**: Test manual deployment
 
-### 🚀 Step 6: GitHub Actions CI/CD
+### 🚀 Step 6: GitHub Actions Direct CI/CD
 - [ ] **6A**: Create GitHub repository
-- [ ] **6B**: Add GitHub Secrets (AWS keys, Octopus keys)
-- [ ] **6C**: Update workflow file for BookApi
+- [ ] **6B**: Add GitHub Secrets (AWS keys only)
+- [ ] **6C**: Create workflow file for BookApi (direct ECS deployment)
 - [ ] **6D**: Test CI/CD pipeline
 - [ ] **6E**: Make code change and trigger deployment
 
@@ -93,7 +94,9 @@ Build complete CI/CD pipeline: GitHub Actions → ECR → ECS Fargate → Octopu
 1. Create GitHub repository for BookApi
 2. Add AWS access keys as GitHub Secrets
 3. Upload source code to repository
-4. Configure GitHub Actions workflow
+4. Create GitHub Actions workflow (direct ECS deployment)
+5. Test full CI/CD pipeline
+6. **Later**: Add Octopus Deploy for advanced features
 
 ---
 
