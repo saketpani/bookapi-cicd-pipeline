@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/books")]
 public class BookController : ControllerBase
 {
     private static readonly Book[] Books = new[]
