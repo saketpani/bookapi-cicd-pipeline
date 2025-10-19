@@ -1,0 +1,54 @@
+{
+  "Id": "deploymentprocess-weather-api",
+  "ProjectId": "Projects-1",
+  "Steps": [
+    {
+      "Id": "step-1",
+      "Name": "Deploy Weather API to ECS",
+      "PackageRequirement": "LetOctopusDecide",
+      "Properties": {},
+      "Condition": "Success",
+      "StartTrigger": "StartAfterPrevious",
+      "Actions": [
+        {
+          "Id": "action-1",
+          "Name": "Deploy Weather API to ECS",
+          "ActionType": "Octopus.AwsRunEcsTask",
+          "IsDisabled": false,
+          "CanBeUsedForProjectVersioning": false,
+          "IsRequired": false,
+          "WorkerPoolId": null,
+          "Container": {
+            "Image": null,
+            "FeedId": null
+          },
+          "WorkerPoolVariable": null,
+          "Environments": [],
+          "ExcludedEnvironments": [],
+          "Channels": [],
+          "TenantTags": [],
+          "Packages": [],
+          "Condition": "Success",
+          "Properties": {
+            "Octopus.Action.Aws.AssumeRole": "False",
+            "Octopus.Action.Aws.Region": "us-east-1",
+            "Octopus.Action.AwsAccount.UseInstanceRole": "False",
+            "Octopus.Action.AwsAccount.Variable": "AWS Production",
+            "Octopus.Action.Aws.EcsService.Cluster": "weather-api-cluster",
+            "Octopus.Action.Aws.EcsService.Service": "weather-api-service",
+            "Octopus.Action.Aws.EcsService.TaskDefinition": "weather-api-task",
+            "Octopus.Action.Aws.EcsService.DesiredCount": "1",
+            "Octopus.Action.Aws.EcsService.PlacementStrategy": "[]",
+            "Octopus.Action.Aws.EcsService.PlacementConstraint": "[]",
+            "Octopus.Action.Aws.EcsService.NetworkConfiguration": "{\n  \"AwsvpcConfiguration\": {\n    \"Subnets\": [],\n    \"SecurityGroups\": [],\n    \"AssignPublicIp\": \"ENABLED\"\n  }\n}",
+            "Octopus.Action.Aws.EcsService.TaskDefinitionRegistration": "{\n  \"family\": \"weather-api-task\",\n  \"networkMode\": \"awsvpc\",\n  \"requiresCompatibilities\": [\"FARGATE\"],\n  \"cpu\": \"256\",\n  \"memory\": \"512\",\n  \"executionRoleArn\": \"arn:aws:iam::#{AWS.Account.Id}:role/ecsTaskExecutionRole\",\n  \"containerDefinitions\": [\n    {\n      \"name\": \"weather-api\",\n      \"image\": \"#{AWS.ECR.Registry}/weather-api:#{ImageTag}\",\n      \"portMappings\": [\n        {\n          \"containerPort\": 80,\n          \"protocol\": \"tcp\"\n        }\n      ],\n      \"essential\": true,\n      \"logConfiguration\": {\n        \"logDriver\": \"awslogs\",\n        \"options\": {\n          \"awslogs-group\": \"/ecs/weather-api-task\",\n          \"awslogs-region\": \"us-east-1\",\n          \"awslogs-stream-prefix\": \"ecs\"\n        }\n      }\n    }\n  ]\n}"
+          }
+        }
+      ]
+    }
+  ],
+  "Version": 1,
+  "LastModifiedOn": null,
+  "LastModifiedBy": null,
+  "Links": {}
+}

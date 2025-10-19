@@ -1,0 +1,67 @@
+{
+  "Variables": [
+    {
+      "Id": "variable-1",
+      "Name": "AWS.ECR.Registry",
+      "Value": "123456789012.dkr.ecr.us-east-1.amazonaws.com",
+      "Description": "ECR Registry URL - Replace with your AWS Account ID",
+      "Scope": {},
+      "IsEditable": true,
+      "Prompt": null,
+      "Type": "String",
+      "IsSensitive": false
+    },
+    {
+      "Id": "variable-2", 
+      "Name": "AWS.Account.Id",
+      "Value": "123456789012",
+      "Description": "AWS Account ID - Replace with your actual account ID",
+      "Scope": {},
+      "IsEditable": true,
+      "Prompt": null,
+      "Type": "String",
+      "IsSensitive": false
+    },
+    {
+      "Id": "variable-3",
+      "Name": "ImageTag",
+      "Value": "latest",
+      "Description": "Container image tag - Set by GitHub Actions",
+      "Scope": {},
+      "IsEditable": true,
+      "Prompt": null,
+      "Type": "String",
+      "IsSensitive": false
+    },
+    {
+      "Id": "variable-4",
+      "Name": "ECS.Cluster.Name",
+      "Value": "weather-api-cluster",
+      "Description": "ECS Cluster name",
+      "Scope": {},
+      "IsEditable": true,
+      "Prompt": null,
+      "Type": "String",
+      "IsSensitive": false
+    },
+    {
+      "Id": "variable-5",
+      "Name": "ECS.Service.Name", 
+      "Value": "weather-api-service",
+      "Description": "ECS Service name",
+      "Scope": {},
+      "IsEditable": true,
+      "Prompt": null,
+      "Type": "String",
+      "IsSensitive": false
+    }
+  ],
+  "ScopeValues": {
+    "Environments": [],
+    "Machines": [],
+    "Actions": [],
+    "Roles": [],
+    "Channels": [],
+    "TenantTags": []
+  }
+}

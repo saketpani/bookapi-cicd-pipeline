@@ -1,0 +1,99 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: weather-api
+  OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+  OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+  OCTOPUS_SPACE: Default
+
+jobs:
+  build-and-push:
+    name: Build and Push to ECR
+    runs-on: ubuntu-latest
+    
+    outputs:
+      image-tag: ${{ steps.build-image.outputs.image-tag }}
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore src/WeatherApi/WeatherApi.csproj
+
+    - name: Build
+      run: dotnet build src/WeatherApi/WeatherApi.csproj --no-restore
+
+    - name: Test
+      run: dotnet test src/WeatherApi/WeatherApi.csproj --no-build --verbosity normal
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        cd src/WeatherApi
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image-tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  deploy-to-octopus:
+    name: Deploy via Octopus Deploy
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install Octopus CLI
+      uses: OctopusDeploy/install-octopus-cli-action@v3
+      with:
+        version: latest
+
+    - name: Create Octopus Release
+      run: |
+        octo create-release \
+          --project="Weather API" \
+          --version="${{ needs.build-and-push.outputs.image-tag }}" \
+          --server="${{ env.OCTOPUS_URL }}" \
+          --apiKey="${{ env.OCTOPUS_API_KEY }}" \
+          --space="${{ env.OCTOPUS_SPACE }}" \
+          --variable="ImageTag:${{ needs.build-and-push.outputs.image-tag }}"
+
+    - name: Deploy Release
+      run: |
+        octo deploy-release \
+          --project="Weather API" \
+          --version="${{ needs.build-and-push.outputs.image-tag }}" \
+          --deployto="Production" \
+          --server="${{ env.OCTOPUS_URL }}" \
+          --apiKey="${{ env.OCTOPUS_API_KEY }}" \
+          --space="${{ env.OCTOPUS_SPACE }}" \
+          --waitfordeployment
