@@ -56,9 +56,9 @@
 - [ ] **5F**: Test manual deployment
 
 ### 🚀 Step 6: GitHub Actions Direct CI/CD
-- [ ] **6A**: Create GitHub repository
-- [ ] **6B**: Add GitHub Secrets (AWS keys only)
-- [ ] **6C**: Create workflow file for BookApi (direct ECS deployment)
+- ✓ **6A**: Create GitHub repository (https://github.com/saketpani/bookapi-cicd-pipeline)
+- ✓ **6B**: Add GitHub Secrets (AWS keys added)
+- ✓ **6C**: Create workflow file for BookApi (direct ECS deployment)
 - [ ] **6D**: Test CI/CD pipeline
 - [ ] **6E**: Make code change and trigger deployment
 
@@ -74,7 +74,7 @@
 
 ## 📊 Progress Summary
 
-**Overall Progress**: 22/30 tasks completed (73%)
+**Overall Progress**: 25/30 tasks completed (83%)
 
 ### By Phase:
 - ✅ **Local Development**: 6/6 (100%)
@@ -82,20 +82,20 @@
 - ✅ **AWS Infrastructure**: 6/6 (100%)
 - ✅ **IAM & Security**: 4/4 (100%)
 - ⏳ **Octopus Deploy**: 0/6 (0%)
-- ⏳ **GitHub Actions**: 0/5 (0%)
+- 🚧 **GitHub Actions**: 3/5 (60%)
 - ⏳ **End-to-End Testing**: 0/6 (0%)
 
 ---
 
 ## 🎯 Current Focus
-**Step 6A**: Create GitHub Repository
+**Step 6D**: Test CI/CD Pipeline
 
 ### Next Actions:
-1. Create GitHub repository for BookApi
-2. Add AWS access keys as GitHub Secrets
-3. Upload source code to repository
-4. Create GitHub Actions workflow (direct ECS deployment)
-5. Test full CI/CD pipeline
+1. ✅ Create GitHub repository
+2. ✅ Add AWS secrets
+3. ✅ Create workflow file
+4. **NOW**: Recreate ECS infrastructure (deleted overnight)
+5. Test full CI/CD pipeline by pushing code
 6. **Later**: Add Octopus Deploy for advanced features
 
 ---
