@@ -1,45 +1,22 @@
-# .NET API CI/CD Pipeline with GitHub Actions, ECR, ECS Fargate & Octopus Deploy
+# Automated CI/CD Pipeline for .NET Book API
 
-This project demonstrates a complete CI/CD pipeline for a .NET API using:
-- GitHub Actions for CI/CD
-- Amazon ECR for container registry
-- Amazon ECS with Fargate for deployment
-- Octopus Deploy for deployment orchestration
+A robust, enterprise-ready continuous integration and continuous deployment (CI/CD) pipeline blueprint designed to automate the build, test, containerization, and deployment workflows for a .NET-based RESTful API.
 
-## Project Structure
-```
-├── src/
-│   └── WeatherApi/
-│       ├── Controllers/
-│       ├── Program.cs
-│       ├── WeatherApi.csproj
-│       └── Dockerfile
-├── .github/
-│   └── workflows/
-│       └── ci-cd.yml
-├── octopus/
-│   ├── deployment-process.json
-│   └── variables.json
-└── aws-setup/
-    └── setup-instructions.md
-```
+## 🛠️ Pipeline Architecture & Stages
+This repository demonstrates a fully automated pipeline split into distinct, isolated stages:
+- **Lint & Code Quality:** Enforces style guidelines and runs static analysis tools.
+- **Restore & Build:** Restores NuGet dependencies and compiles the source code utilizing multi-stage optimization.
+- **Automated Testing:** Executes unit and integration test suites, blocking the pipeline if any tests fail to ensure production stability.
+- **Artifact Generation / Containerization:** Packages the application into a minimal, secure Docker image and pushes it to a target Container Registry.
+- **Continuous Deployment (CD):** (Optional: Describe if it deploys to a staging/production cloud environment like Azure App Service or AKS).
 
-## Prerequisites
-- AWS Account
-- GitHub Account
-- Octopus Deploy Account (free tier available)
-- Docker Desktop
-- .NET 8 SDK
-- AWS CLI
-- Octopus CLI
+## 🧰 Tech Stack
+- **CI/CD Platform:** [e.g., GitHub Actions / Azure DevOps Pipelines]
+- **Backend Framework:** .NET Core API
+- **Containerization:** Docker
+- **Cloud/Target Environment:** [e.g., Local / Azure / AWS]
 
-## Quick Start
-1. Follow AWS setup instructions in `aws-setup/setup-instructions.md`
-2. Configure GitHub secrets
-3. Set up Octopus Deploy
-4. Push code to trigger pipeline
-
-## Architecture
-```
-GitHub → GitHub Actions → Build → ECR → Octopus Deploy → ECS Fargate
-```
+## 🚀 How to Use / Configure
+1. Fork or clone this repository.
+2. Set up the required environment secrets (e.g., `DOCKER_USERNAME`, `AZURE_CREDENTIALS`) within your repository settings.
+3. Push a change to the `main` or `develop` branch to automatically trigger the workflow.
